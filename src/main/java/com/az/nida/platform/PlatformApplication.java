@@ -7,9 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages =  "com.az")
-@EntityScan(basePackages =  "com.az")
-@ComponentScan(basePackages =  "com.az")
+@EnableJpaRepositories(basePackages =  "com.az.nida.platform")
+@EntityScan(basePackages =  "com.az.nida.platform")
+@ComponentScan(basePackages =  "com.az.nida.platform")
 public class PlatformApplication {
 
 	public static void main(String[] args) {
