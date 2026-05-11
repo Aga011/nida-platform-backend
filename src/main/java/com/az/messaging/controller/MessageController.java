@@ -1,0 +1,27 @@
+package com.az.messaging.controller;
+
+import com.az.common.response.ApiResponse;
+import com.az.messaging.dto.MessageDto;
+import com.az.messaging.dto.SendMessageRequest;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+
+public interface MessageController {
+
+    ResponseEntity<ApiResponse<MessageDto>> sendMessage(
+            Long fromId, @Valid SendMessageRequest request);
+
+    ResponseEntity<ApiResponse<List<MessageDto>>> getIncomingMessages(Long userId);
+
+    ResponseEntity<ApiResponse<List<MessageDto>>> getSentMessages(Long userId);
+
+    ResponseEntity<ApiResponse<List<MessageDto>>> getGroupMessages(Long groupId);
+
+    ResponseEntity<ApiResponse<List<MessageDto>>> getConversation(Long fromId, Long toId);
+
+    ResponseEntity<ApiResponse<MessageDto>> markAsRead(Long messageId, Long userId);
+
+    ResponseEntity<ApiResponse<Long>> getUnreadCount(Long userId);
+}
