@@ -24,4 +24,12 @@ public interface MessageController {
     ResponseEntity<ApiResponse<MessageDto>> markAsRead(Long messageId, Long userId);
 
     ResponseEntity<ApiResponse<Long>> getUnreadCount(Long userId);
+
+    ResponseEntity<ApiResponse<MessageDto>> sendParentTeacherMessage(
+            Long parentId, Long teacherId, Long childId, String content);
+
+    ResponseEntity<ApiResponse<List<MessageDto>>> getParentTeacherConversation(
+            Long parentId, Long teacherId, Long childId);
+
+    ResponseEntity<ApiResponse<List<MessageDto>>> getTeacherParentMessages(Long teacherId);
 }

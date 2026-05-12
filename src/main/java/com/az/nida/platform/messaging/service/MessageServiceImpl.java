@@ -111,4 +111,41 @@ public class MessageServiceImpl implements MessageService {
     public long getUnreadCount(Long userId) {
         return messageRepository.countByToIdAndReadAtIsNull(userId);
     }
+
+    @Override
+    @Transactional
+    public MessageDto sendParentTeacherMessage(Long parentId, Long teacherId, Long childId, String content) {
+        User parent = userRepository.findById(parentId)
+                .orElseThrow(() -> BusinessException.notFound("Valideyn tapılmadı"));
+
+        SendMessageRequest request = new SendMessageRequest(
+                teacherId,
+                null,
+                content + " [uşaqId:" + childId + "]",
+                MessageType.DIRECT
+        );
+
+        return sendMessage(parentId, request);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MessageDto> getParentTeacherConversation(Long parentId, Long teacherId, Long childId) {
+        return messageRepository
+                .findByFromIdAndToIdOrFromIdAndToIdOrderByCreatedAtDesc(
+                        parentId, teacherId, teacherId, parentId)
+                .stream()
+                .map(messageMapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MessageDto> getTeacherParentMessages(Long teacherId) {
+        return messageRepository.findByToIdOrderByCreatedAtDesc(teacherId)
+                .stream()
+                .filter(m -> m.getType() == MessageType.DIRECT)
+                .map(messageMapper::toResponse)
+                .toList();
+    }
 }

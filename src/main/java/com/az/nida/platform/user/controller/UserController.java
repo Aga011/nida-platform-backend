@@ -8,6 +8,8 @@ import com.az.nida.platform.user.dto.UpdateProfileRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface UserController {
 
     ResponseEntity<ApiResponse<StudentDto>> getStudentByUniqueId(String uniqueId);
@@ -25,4 +27,8 @@ public interface UserController {
     ResponseEntity<ApiResponse<ParentDto>> updateParentProfile(Long id, @Valid UpdateProfileRequest request);
 
     ResponseEntity<ApiResponse<Void>> deleteUser(Long id);
+
+    ResponseEntity<ApiResponse<StudentDto>> searchByUniqueId(String uniqueId);
+
+    ResponseEntity<ApiResponse<List<StudentDto>>> searchStudents(String query);
 }

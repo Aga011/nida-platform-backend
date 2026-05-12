@@ -21,4 +21,10 @@ public interface MessageService {
     MessageDto markAsRead(Long messageId, Long userId);
 
     long getUnreadCount(Long userId);
+
+    MessageDto sendParentTeacherMessage(Long parentId, Long teacherId, Long childId, String content);
+
+    List<MessageDto> getParentTeacherConversation(Long parentId, Long teacherId, Long childId);
+
+    List<MessageDto> getTeacherParentMessages(Long teacherId);
 }

@@ -6,6 +6,8 @@ import com.az.nida.platform.user.dto.StudentDto;
 import com.az.nida.platform.user.dto.TeacherDto;
 import com.az.nida.platform.user.dto.UpdateProfileRequest;
 
+import java.util.List;
+
 public interface UserService {
 
     StudentDto getStudentByUniqueId(String uniqueId);
@@ -27,4 +29,8 @@ public interface UserService {
     ParentDto updateParentProfile(Long id, UpdateProfileRequest request);
 
     void deleteUser(Long id);
+
+    StudentDto searchByUniqueId(String uniqueId);
+
+    List<StudentDto> searchStudents(String query);
 }

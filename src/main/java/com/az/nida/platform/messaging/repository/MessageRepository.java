@@ -21,4 +21,9 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findByFromIdAndToIdOrderByCreatedAtDesc(Long fromId, Long toId);
 
     long countByToIdAndReadAtIsNull(Long toId);
+
+    List<Message> findByFromIdAndToIdOrFromIdAndToIdOrderByCreatedAtDesc(
+            Long fromId1, Long toId1, Long fromId2, Long toId2);
+
+    List<Message> findByTypeAndToIdOrderByCreatedAtDesc(MessageType type, Long toId);
 }

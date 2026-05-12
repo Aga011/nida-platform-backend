@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -120,5 +122,21 @@ public class UserServiceImpl implements UserService {
             throw BusinessException.notFound("İstifadəçi tapılmadı");
         }
         studentRepository.deleteById(id);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public StudentDto searchByUniqueId(String uniqueId) {
+        Student student = studentRepository.findByStudentId(uniqueId)
+                .orElseThrow(() -> BusinessException.notFound("Şagird tapılmadı: " + uniqueId));
+        return studentMapper.toResponse(student);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<StudentDto> searchStudents(String query) {
+        return studentRepository.findByFullNameContainingIgnoreCaseOrStudentIdContainingIgnoreCase(query, query)
+                .stream()
+                .map(studentMapper::toResponse)
+                .toList();
     }
 }

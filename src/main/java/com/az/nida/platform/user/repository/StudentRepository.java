@@ -23,4 +23,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByCity(String city);
 
     List<Student> findBySchool(String school);
+
+    List<Student> findByFullNameContainingIgnoreCaseOrStudentIdContainingIgnoreCase(
+            String fullName, String studentId);
 }

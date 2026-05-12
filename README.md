@@ -9,6 +9,7 @@ NIDA, Azərbaycan şagirdləri üçün hazırlanmış ağıllı öyrənmə platf
 - **Redis** — cache və session
 - **Apache Kafka** — real-time event streaming
 - **RabbitMQ** — email və bildiriş queue
+- **WebSocket (STOMP)** — real-time bildirişlər
 - **Docker** + **Docker Compose**
 - **MapStruct** — DTO mapping
 - **JWT** — autentifikasiya
@@ -16,18 +17,25 @@ NIDA, Azərbaycan şagirdləri üçün hazırlanmış ağıllı öyrənmə platf
 ## Arxitektura
 
 Monolith arxitektura, modul strukturu ilə:
-├── auth/          # Qeydiyyat, giriş, JWT
-├── user/          # Şagird, müəllim, valideyn
-├── test/          # Test mexanizmi, sual, cavab
-├── analytics/     # İnkişaf statistikası
-├── exam/          # Sinaq imtahanları
-├── permission/    # Müəllim-şagird icazə sistemi
-├── messaging/     # Daxili mesajlaşma
-├── payment/       # Ödəniş və balans
-├── notification/  # Email bildirişləri
-├── kafka/         # Real-time eventlər
-├── config/        # Konfiqurasiyalar
-└── common/        # Ümumi exception, response
+├── auth/              # Qeydiyyat, giriş, JWT
+├── user/              # Şagird, müəllim, valideyn
+├── test/              # Test mexanizmi, sual, cavab
+├── analytics/         # İnkişaf statistikası
+├── exam/              # Sinaq imtahanları
+├── practice_exam/     # Müəllim tərəfindən sinaq imtahanları
+├── permission/        # Müəllim-şagird icazə sistemi
+├── messaging/         # Daxili mesajlaşma
+├── payment/           # Ödəniş və balans
+├── notification/      # Email + real-time bildirişlər
+├── group/             # Qrup idarəetməsi
+├── homework/          # Ev tapşırıqları
+├── parent_child/      # Valideyn-uşaq bağlantısı
+├── gamification/      # XP, level, badge, streak
+├── dashboard/         # Dashboard data
+├── live_session/      # Canlı dərslər
+├── kafka/             # Real-time eventlər
+├── config/            # Konfiqurasiyalar
+└── common/            # Ümumi exception, response
 
 ## Başlamaq üçün
 
@@ -48,14 +56,9 @@ cp .env.example .env
 # .env faylını öz məlumatlarınla doldur
 ```
 
-### 3. Docker servislərini qaldır
+### 3. Docker ilə işə sal
 ```bash
-docker-compose up -d
-```
-
-### 4. Layihəni işə sal
-```bash
-mvn spring-boot:run
+docker-compose up -d --build
 ```
 
 Server `http://localhost:8080` ünvanında işləyəcək.
@@ -69,18 +72,34 @@ Server `http://localhost:8080` ünvanında işləyəcək.
 | Tests | `/api/tests` |
 | Analytics | `/api/analytics` |
 | Exams | `/api/exams` |
+| Practice Exams | `/api/practice-exams` |
 | Permissions | `/api/permissions` |
 | Messages | `/api/messages` |
 | Payments | `/api/payments` |
+| Notifications | `/api/notifications` |
+| Groups | `/api/groups` |
+| Homeworks | `/api/homeworks` |
+| Parent-Child | `/api/parent-child` |
+| Gamification | `/api/gamification` |
+| Dashboard | `/api/dashboard` |
+| Live Sessions | `/api/live-sessions` |
 
 ## Rollər
 
 | Rol | Səlahiyyətlər |
 |-----|---------------|
-| `STUDENT` | Test həll et, statistikaya bax, mesaj göndər |
-| `TEACHER` | Şagirdləri idarə et, imtahan yarat, analiz et |
-| `PARENT` | Uşağı izlə, ödəniş et, nəticəyə bax |
+| `STUDENT` | Test həll et, statistikaya bax, mesaj göndər, qrupa qoşul |
+| `TEACHER` | Şagirdləri idarə et, imtahan yarat, qrup yarat, canlı dərs keçir |
+| `PARENT` | Uşağı izlə, ödəniş et, nəticəyə bax, müəllimlə əlaqə |
 | `ADMIN` | Tam sistem idarəetməsi |
+
+## WebSocket
+
+Real-time bildirişlər üçün WebSocket endpoint:
+ws://localhost:8080/ws
+
+Subscribe:
+/user/{userId}/queue/notifications
 
 ## Əlaqə
 

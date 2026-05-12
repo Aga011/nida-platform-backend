@@ -79,4 +79,34 @@ public class MessageControllerImpl implements MessageController {
         return ResponseEntity.ok(ApiResponse.success(
                 messageService.getUnreadCount(userId)));
     }
+    @Override
+    @PostMapping("/parent-teacher")
+    public ResponseEntity<ApiResponse<MessageDto>> sendParentTeacherMessage(
+            @RequestParam Long parentId,
+            @RequestParam Long teacherId,
+            @RequestParam Long childId,
+            @RequestParam String content) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(
+                        messageService.sendParentTeacherMessage(parentId, teacherId, childId, content),
+                        "Mesaj göndərildi"));
+    }
+
+    @Override
+    @GetMapping("/parent-teacher/conversation")
+    public ResponseEntity<ApiResponse<List<MessageDto>>> getParentTeacherConversation(
+            @RequestParam Long parentId,
+            @RequestParam Long teacherId,
+            @RequestParam Long childId) {
+        return ResponseEntity.ok(ApiResponse.success(
+                messageService.getParentTeacherConversation(parentId, teacherId, childId)));
+    }
+
+    @Override
+    @GetMapping("/teacher/{teacherId}/parent-messages")
+    public ResponseEntity<ApiResponse<List<MessageDto>>> getTeacherParentMessages(
+            @PathVariable Long teacherId) {
+        return ResponseEntity.ok(ApiResponse.success(
+                messageService.getTeacherParentMessages(teacherId)));
+    }
 }

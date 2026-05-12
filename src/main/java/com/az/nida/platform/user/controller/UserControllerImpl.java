@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -70,5 +72,20 @@ public class UserControllerImpl implements UserController {
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok(ApiResponse.success("İstifadəçi silindi"));
+    }
+    @Override
+    @GetMapping("/search/unique-id/{uniqueId}")
+    public ResponseEntity<ApiResponse<StudentDto>> searchByUniqueId(
+            @PathVariable String uniqueId) {
+        return ResponseEntity.ok(ApiResponse.success(
+                userService.searchByUniqueId(uniqueId)));
+    }
+
+    @Override
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<StudentDto>>> searchStudents(
+            @RequestParam String query) {
+        return ResponseEntity.ok(ApiResponse.success(
+                userService.searchStudents(query)));
     }
 }

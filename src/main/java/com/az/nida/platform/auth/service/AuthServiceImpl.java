@@ -6,7 +6,7 @@ import com.az.nida.platform.auth.dto.LoginRequest;
 import com.az.nida.platform.auth.dto.RegisterRequest;
 import com.az.nida.platform.common.exception.BusinessException;
 import com.az.nida.platform.common.util.UniqueIdGenerator;
-import com.az.nida.platform.notfication.rabbit.EmailPublisher;
+import com.az.nida.platform.notification.rabbit.EmailPublisher;
 import com.az.nida.platform.user.entity.Parent;
 import com.az.nida.platform.user.entity.Student;
 import com.az.nida.platform.user.entity.Teacher;
