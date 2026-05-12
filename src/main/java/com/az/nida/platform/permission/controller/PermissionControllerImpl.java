@@ -4,6 +4,7 @@ import com.az.nida.platform.common.response.ApiResponse;
 import com.az.nida.platform.permission.dto.PermissionDto;
 import com.az.nida.platform.permission.dto.PermissionRequest;
 import com.az.nida.platform.permission.service.PermissionService;
+import com.az.nida.platform.user.dto.StudentDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,5 +72,12 @@ public class PermissionControllerImpl implements PermissionController {
             @PathVariable Long teacherId) {
         return ResponseEntity.ok(ApiResponse.success(
                 permissionService.getGrantedPermissions(teacherId)));
+    }
+    @Override
+    @GetMapping("/teacher/{teacherId}/students")
+    public ResponseEntity<ApiResponse<List<StudentDto>>> getPermittedStudents(
+            @PathVariable Long teacherId) {
+        return ResponseEntity.ok(ApiResponse.success(
+                permissionService.getPermittedStudents(teacherId)));
     }
 }

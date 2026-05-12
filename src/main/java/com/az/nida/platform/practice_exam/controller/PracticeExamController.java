@@ -42,4 +42,7 @@ public interface PracticeExamController {
     ResponseEntity<ApiResponse<List<PracticeExamAttemptDto>>> getStudentAllAttempts(Long studentId);
 
     ResponseEntity<ApiResponse<List<PracticeExamAttemptDto>>> getSharedAttemptsForParent(Long examId);
+
+    ResponseEntity<ApiResponse<PracticeExamDto>> markSummarySent(
+            Long examId, Long teacherId, String summary);
 }

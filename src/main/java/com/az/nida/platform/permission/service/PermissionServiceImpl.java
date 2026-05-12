@@ -7,8 +7,10 @@ import com.az.nida.platform.permission.entity.Permission;
 import com.az.nida.platform.permission.entity.PermissionStatus;
 import com.az.nida.platform.permission.mapper.PermissionMapper;
 import com.az.nida.platform.permission.repository.PermissionRepository;
+import com.az.nida.platform.user.dto.StudentDto;
 import com.az.nida.platform.user.entity.Student;
 import com.az.nida.platform.user.enums.Subject;
+import com.az.nida.platform.user.mapper.StudentMapper;
 import com.az.nida.platform.user.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ public class PermissionServiceImpl implements PermissionService {
     private final PermissionRepository permissionRepository;
     private final PermissionMapper permissionMapper;
     private final StudentRepository studentRepository;
+    private final StudentMapper studentMapper;
 
     @Override
     @Transactional
@@ -140,5 +143,17 @@ public class PermissionServiceImpl implements PermissionService {
         Subject subjectEnum = Subject.valueOf(subject.toUpperCase());
         return permissionRepository.existsByTeacherIdAndStudentIdAndSubjectAndStatus(
                 teacherId, studentId, subjectEnum, PermissionStatus.GRANTED);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<StudentDto> getPermittedStudents(Long teacherId) {
+        return permissionRepository.findByTeacherIdAndStatus(teacherId, PermissionStatus.GRANTED)
+                .stream()
+                .map(p -> studentRepository.findById(p.getStudentId())
+                        .map(studentMapper::toResponse)
+                        .orElse(null))
+                .filter(s -> s != null)
+                .toList();
     }
 }

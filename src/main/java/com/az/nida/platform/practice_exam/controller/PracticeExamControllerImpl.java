@@ -133,4 +133,14 @@ public class PracticeExamControllerImpl implements PracticeExamController {
         return ResponseEntity.ok(ApiResponse.success(
                 practiceExamService.getSharedAttemptsForParent(examId)));
     }
+    @Override
+    @PutMapping("/{examId}/summary-sent")
+    public ResponseEntity<ApiResponse<PracticeExamDto>> markSummarySent(
+            @PathVariable Long examId,
+            @RequestParam Long teacherId,
+            @RequestParam String summary) {
+        return ResponseEntity.ok(ApiResponse.success(
+                practiceExamService.markSummarySent(examId, teacherId, summary),
+                "Xülasə göndərildi"));
+    }
 }

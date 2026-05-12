@@ -1,9 +1,6 @@
 package com.az.nida.platform.test.controller;
 import com.az.nida.platform.common.response.ApiResponse;
-import com.az.nida.platform.test.dto.AnswerRequest;
-import com.az.nida.platform.test.dto.TestResultDto;
-import com.az.nida.platform.test.dto.TestSessionDto;
-import com.az.nida.platform.test.dto.TestStartRequest;
+import com.az.nida.platform.test.dto.*;
 import com.az.nida.platform.test.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -82,5 +79,11 @@ public class TestControllerImpl implements TestController {
             @PathVariable Long studentId) {
         return ResponseEntity.ok(ApiResponse.success(
                 testService.getStudentResults(studentId)));
+    }
+    @Override
+    @GetMapping("/assessment/questions")
+    public ResponseEntity<ApiResponse<List<QuestionDto>>> getAssessmentQuestions() {
+        return ResponseEntity.ok(ApiResponse.success(
+                testService.getAssessmentQuestions()));
     }
 }

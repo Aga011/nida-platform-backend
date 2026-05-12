@@ -4,6 +4,7 @@ package com.az.nida.platform.permission.controller;
 import com.az.nida.platform.common.response.ApiResponse;
 import com.az.nida.platform.permission.dto.PermissionDto;
 import com.az.nida.platform.permission.dto.PermissionRequest;
+import com.az.nida.platform.user.dto.StudentDto;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
@@ -25,4 +26,6 @@ public interface PermissionController {
     ResponseEntity<ApiResponse<List<PermissionDto>>> getSentPermissions(Long teacherId);
 
     ResponseEntity<ApiResponse<List<PermissionDto>>> getGrantedPermissions(Long teacherId);
+
+    ResponseEntity<ApiResponse<List<StudentDto>>> getPermittedStudents(Long teacherId);
 }

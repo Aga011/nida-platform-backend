@@ -1,9 +1,6 @@
 package com.az.nida.platform.test.service;
 
-import com.az.nida.platform.test.dto.AnswerRequest;
-import com.az.nida.platform.test.dto.TestResultDto;
-import com.az.nida.platform.test.dto.TestSessionDto;
-import com.az.nida.platform.test.dto.TestStartRequest;
+import com.az.nida.platform.test.dto.*;
 
 import java.util.List;
 
@@ -22,4 +19,6 @@ public interface TestService {
     TestResultDto getTestResult(Long sessionId);
 
     List<TestResultDto> getStudentResults(Long studentId);
+
+    List<QuestionDto> getAssessmentQuestions();
 }

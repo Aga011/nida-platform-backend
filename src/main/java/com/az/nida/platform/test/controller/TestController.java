@@ -1,10 +1,7 @@
 package com.az.nida.platform.test.controller;
 
 import com.az.nida.platform.common.response.ApiResponse;
-import com.az.nida.platform.test.dto.AnswerRequest;
-import com.az.nida.platform.test.dto.TestResultDto;
-import com.az.nida.platform.test.dto.TestSessionDto;
-import com.az.nida.platform.test.dto.TestStartRequest;
+import com.az.nida.platform.test.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
@@ -29,4 +26,6 @@ public interface TestController {
     ResponseEntity<ApiResponse<TestResultDto>> getTestResult(Long sessionId);
 
     ResponseEntity<ApiResponse<List<TestResultDto>>> getStudentResults(Long studentId);
+
+    ResponseEntity<ApiResponse<List<QuestionDto>>> getAssessmentQuestions();
 }

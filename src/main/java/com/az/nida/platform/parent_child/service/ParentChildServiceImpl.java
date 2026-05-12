@@ -134,4 +134,12 @@ public class ParentChildServiceImpl implements ParentChildService {
                 .map(parentChildMapper::toResponse)
                 .toList();
     }
+    @Override
+    @Transactional(readOnly = true)
+    public List<Long> getParentIdsByStudentId(Long studentId) {
+        return parentChildRepository.findByStudentIdAndStatus(studentId, ParentChildStatus.ACCEPTED)
+                .stream()
+                .map(ParentChildRequest::getParentId)
+                .toList();
+    }
 }

@@ -32,4 +32,6 @@ public interface PracticeExamService {
     List<PracticeExamAttemptDto> getStudentAllAttempts(Long studentId);
 
     List<PracticeExamAttemptDto> getSharedAttemptsForParent(Long examId);
+
+    PracticeExamDto markSummarySent(Long examId, Long teacherId, String summary);
 }

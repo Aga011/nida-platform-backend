@@ -23,4 +23,6 @@ public interface ParentChildController {
     ResponseEntity<ApiResponse<List<ParentChildRequestDto>>> getStudentRequests(Long studentId);
 
     ResponseEntity<ApiResponse<List<ParentChildRequestDto>>> getParentChildren(Long parentId);
+
+    ResponseEntity<ApiResponse<List<Long>>> getParentIdsByStudentId(Long studentId);
 }

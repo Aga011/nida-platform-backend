@@ -2,14 +2,12 @@ package com.az.nida.platform.test.service;
 
 import com.az.nida.platform.common.exception.BusinessException;
 import com.az.nida.platform.kafka.producer.ProgressEventProducer;
-import com.az.nida.platform.test.dto.AnswerRequest;
-import com.az.nida.platform.test.dto.TestResultDto;
-import com.az.nida.platform.test.dto.TestSessionDto;
-import com.az.nida.platform.test.dto.TestStartRequest;
+import com.az.nida.platform.test.dto.*;
 import com.az.nida.platform.test.entity.Option;
 import com.az.nida.platform.test.entity.Question;
 import com.az.nida.platform.test.entity.TestAnswer;
 import com.az.nida.platform.test.entity.TestSession;
+import com.az.nida.platform.test.mapper.QuestionMapper;
 import com.az.nida.platform.test.mapper.TestSessionMapper;
 import com.az.nida.platform.test.repository.QuestionRepository;
 import com.az.nida.platform.test.repository.TestSessionRepository;
@@ -33,6 +31,7 @@ public class TestServiceImpl implements TestService {
     private final QuestionRepository questionRepository;
     private final TestSessionMapper testSessionMapper;
     private final ProgressEventProducer progressEventProducer;
+    private final QuestionMapper questionMapper;
 
     @Override
     @Transactional
@@ -211,5 +210,14 @@ public class TestServiceImpl implements TestService {
                 timeSpent,
                 session.getCompletedAt()
         );
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<QuestionDto> getAssessmentQuestions() {
+        return questionRepository.findAll()
+                .stream()
+                .limit(100)
+                .map(questionMapper::toResponse)
+                .toList();
     }
 }

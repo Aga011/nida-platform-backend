@@ -72,4 +72,11 @@ public class ParentChildControllerImpl implements ParentChildController {
         return ResponseEntity.ok(ApiResponse.success(
                 parentChildService.getParentChildren(parentId)));
     }
+    @Override
+    @GetMapping("/student/{studentId}/parents")
+    public ResponseEntity<ApiResponse<List<Long>>> getParentIdsByStudentId(
+            @PathVariable Long studentId) {
+        return ResponseEntity.ok(ApiResponse.success(
+                parentChildService.getParentIdsByStudentId(studentId)));
+    }
 }

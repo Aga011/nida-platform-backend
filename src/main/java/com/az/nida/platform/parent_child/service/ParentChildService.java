@@ -18,4 +18,6 @@ public interface ParentChildService {
     List<ParentChildRequestDto> getStudentRequests(Long studentId);
 
     List<ParentChildRequestDto> getParentChildren(Long parentId);
+
+    List<Long> getParentIdsByStudentId(Long studentId);
 }

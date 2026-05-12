@@ -2,6 +2,7 @@ package com.az.nida.platform.permission.service;
 
 import com.az.nida.platform.permission.dto.PermissionDto;
 import com.az.nida.platform.permission.dto.PermissionRequest;
+import com.az.nida.platform.user.dto.StudentDto;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface PermissionService {
     List<PermissionDto> getGrantedPermissions(Long teacherId);
 
     boolean hasPermission(Long teacherId, Long studentId, String subject);
+
+    List<StudentDto> getPermittedStudents(Long teacherId);
 }

@@ -208,4 +208,13 @@ public class PracticeExamServiceImpl implements PracticeExamService {
 
         return exam;
     }
+    @Override
+    @Transactional
+    public PracticeExamDto markSummarySent(Long examId, Long teacherId, String summary) {
+        PracticeExam exam = getTeacherExam(examId, teacherId);
+        exam.setSharedWithParents(true);
+        PracticeExam saved = practiceExamRepository.save(exam);
+        log.info("Sinaq xülasəsi göndərildi: examId={}", examId);
+        return practiceExamMapper.toResponse(saved);
+    }
 }
