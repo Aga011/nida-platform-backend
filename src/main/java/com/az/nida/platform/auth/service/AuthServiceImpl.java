@@ -257,6 +257,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return new AuthResponse(
+                user.getId(),
                 token,
                 refreshToken,
                 user.getUniqueId(),

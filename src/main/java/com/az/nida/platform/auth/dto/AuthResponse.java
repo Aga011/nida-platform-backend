@@ -3,6 +3,7 @@ package com.az.nida.platform.auth.dto;
 import com.az.nida.platform.user.enums.Role;
 
 public record AuthResponse(
+        Long id,
         String token,
         String refreshToken,
         String uniqueId,
