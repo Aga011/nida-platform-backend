@@ -3,6 +3,7 @@ package com.az.nida.platform.user.dto;
 import com.az.nida.platform.user.enums.ForeignLanguage;
 import com.az.nida.platform.user.enums.Role;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record StudentDto(
@@ -13,6 +14,7 @@ public record StudentDto(
         String uniqueId,
         String avatarUrl,
         boolean emailVerified,
+        LocalDate birthDate,
         String studentId,
         int grade,
         ForeignLanguage foreignLanguage,

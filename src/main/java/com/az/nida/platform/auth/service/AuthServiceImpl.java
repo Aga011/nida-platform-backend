@@ -214,19 +214,6 @@ public class AuthServiceImpl implements AuthService {
                 });
     }
 
-
-    private Student buildStudent(RegisterRequest request) {
-        return Student.builder()
-                .fullName(request.fullName())
-                .email(request.email().toLowerCase().trim())
-                .role(Role.STUDENT)
-                .grade(request.grade())
-                .foreignLanguage(request.foreignLanguage())
-                .city(request.city())
-                .school(request.school())
-                .build();
-    }
-
     private Teacher buildTeacher(RegisterRequest request) {
         return Teacher.builder()
                 .fullName(request.fullName())
@@ -244,6 +231,19 @@ public class AuthServiceImpl implements AuthService {
                 .fullName(request.fullName())
                 .email(request.email().toLowerCase().trim())
                 .role(Role.PARENT)
+                .build();
+    }
+
+    private Student buildStudent(RegisterRequest request) {
+        return Student.builder()
+                .fullName(request.fullName())
+                .email(request.email().toLowerCase().trim())
+                .role(Role.STUDENT)
+                .grade(request.grade())
+                .foreignLanguage(request.foreignLanguage())
+                .city(request.city())
+                .school(request.school())
+                .birthDate(request.birthDate())
                 .build();
     }
 

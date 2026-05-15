@@ -7,6 +7,7 @@ import com.az.nida.platform.user.enums.Role;
 import com.az.nida.platform.user.enums.Subject;
 import jakarta.validation.constraints.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public record RegisterRequest(
@@ -29,6 +30,8 @@ public record RegisterRequest(
 
         @NotNull(message = "Rol seçilməlidir")
         Role role,
+
+        LocalDate birthDate,
 
         String city,
 
