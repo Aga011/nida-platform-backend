@@ -1,8 +1,6 @@
 package com.az.nida.platform.user.dto;
 
-
 import com.az.nida.platform.user.enums.ForeignLanguage;
-import com.az.nida.platform.user.enums.Grade;
 import com.az.nida.platform.user.enums.Role;
 
 import java.time.LocalDateTime;
@@ -16,7 +14,7 @@ public record StudentDto(
         String avatarUrl,
         boolean emailVerified,
         String studentId,
-        Grade grade,
+        int grade,
         ForeignLanguage foreignLanguage,
         String city,
         String school,

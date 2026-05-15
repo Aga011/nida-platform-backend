@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,6 +39,9 @@ public class Student extends User {
 
     @Column(nullable = false)
     private boolean diagnosticTestDone = false;
+
+    @Column
+    private LocalDate birthDate;
 
     @Column(nullable = false)
     private int streakDays = 0;
