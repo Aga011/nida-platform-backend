@@ -56,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
 
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setUniqueId(uniqueIdGenerator.generate());
-        String verificationCode = String.format("%06d", new java.util.Random().nextInt(999999));
+        String verificationCode = String.format("%06d", new java.security.SecureRandom().nextInt(999999));
         user.setEmailVerificationToken(UUID.randomUUID().toString());
         user.setEmailVerificationExpiry(LocalDateTime.now().plusHours(24));
         user.setEmailVerificationCode(verificationCode);
