@@ -1,6 +1,5 @@
 package com.az.nida.platform.user.mapper;
 
-
 import com.az.nida.platform.user.dto.TeacherDto;
 import com.az.nida.platform.user.entity.Teacher;
 import org.mapstruct.Mapper;
