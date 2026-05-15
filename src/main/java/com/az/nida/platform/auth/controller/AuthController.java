@@ -11,6 +11,8 @@ public interface AuthController {
 
     ResponseEntity<ApiResponse<AuthResponse>> register(@Valid RegisterRequest request);
 
+    ResponseEntity<ApiResponse<Void>> verifyCode(String email, String code);
+
     ResponseEntity<ApiResponse<AuthResponse>> login(@Valid LoginRequest request);
 
     ResponseEntity<ApiResponse<AuthResponse>> refreshToken(String refreshToken);

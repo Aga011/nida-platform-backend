@@ -56,12 +56,19 @@ public class AuthServiceImpl implements AuthService {
 
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setUniqueId(uniqueIdGenerator.generate());
+        String verificationCode = String.format("%06d", new java.util.Random().nextInt(999999));
         user.setEmailVerificationToken(UUID.randomUUID().toString());
         user.setEmailVerificationExpiry(LocalDateTime.now().plusHours(24));
+        user.setEmailVerificationCode(verificationCode);
+        user.setEmailVerificationCodeExpiry(LocalDateTime.now().plusMinutes(10));
 
         userRepository.save(user);
 
-        emailPublisher.sendVerificationEmail(user.getEmail(), user.getFullName(), user.getEmailVerificationToken());
+        emailPublisher.sendVerificationEmail(
+                user.getEmail(),
+                user.getFullName(),
+                verificationCode
+        );
 
         log.info("Yeni istifadəçi qeydiyyatdan keçdi: {} - {}", user.getEmail(), user.getRole());
 
@@ -158,11 +165,14 @@ public class AuthServiceImpl implements AuthService {
             throw BusinessException.badRequest("Email artıq təsdiqlənib");
         }
 
+        String verificationCode = String.format("%06d", new java.util.Random().nextInt(999999));
         user.setEmailVerificationToken(UUID.randomUUID().toString());
         user.setEmailVerificationExpiry(LocalDateTime.now().plusHours(24));
+        user.setEmailVerificationCode(verificationCode);
+        user.setEmailVerificationCodeExpiry(LocalDateTime.now().plusMinutes(10));
         userRepository.save(user);
 
-        emailPublisher.sendVerificationEmail(user.getEmail(), user.getFullName(), user.getEmailVerificationToken());
+        emailPublisher.sendVerificationEmail(user.getEmail(), user.getFullName(), verificationCode);
 
         log.info("Verification email yenidən göndərildi: {}", email);
     }
@@ -200,6 +210,34 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
 
         log.info("Şifrə sıfırlandı: {}", user.getEmail());
+    }
+
+    @Override
+    @Transactional
+    public void verifyCode(String email, String code) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> BusinessException.notFound("İstifadəçi tapılmadı"));
+
+        if (user.isEmailVerified()) {
+            throw BusinessException.badRequest("Email artıq təsdiqlənib");
+        }
+
+        if (!code.equals(user.getEmailVerificationCode())) {
+            throw BusinessException.badRequest("Kod yanlışdır");
+        }
+
+        if (user.getEmailVerificationCodeExpiry().isBefore(LocalDateTime.now())) {
+            throw BusinessException.badRequest("Kodun müddəti bitib. Yenidən göndərin");
+        }
+
+        user.setEmailVerified(true);
+        user.setEmailVerificationCode(null);
+        user.setEmailVerificationCodeExpiry(null);
+        user.setEmailVerificationToken(null);
+        user.setEmailVerificationExpiry(null);
+        userRepository.save(user);
+
+        log.info("Email kod ilə təsdiqləndi: {}", email);
     }
 
     @Override

@@ -45,6 +45,10 @@ public class User {
 
     private String emailVerificationToken;
 
+    private String emailVerificationCode;
+
+    private LocalDateTime emailVerificationCodeExpiry;
+
     private LocalDateTime emailVerificationExpiry;
 
     private String refreshToken;

@@ -24,28 +24,28 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendVerificationEmail(EmailDto dto) {
-        String verifyLink = frontendUrl + "/verify?token=" + dto.token();
         String html = """
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2 style="color: #00C9A7;">NIDA Platformasına Xoş Gəldiniz!</h2>
-                    <p>Salam, <strong>%s</strong>!</p>
-                    <p>Emailinizi təsdiqləmək üçün aşağıdakı düyməyə klikləyin:</p>
-                    <a href="%s" style="
-                        display: inline-block;
-                        padding: 12px 24px;
-                        background-color: #00C9A7;
-                        color: white;
-                        text-decoration: none;
-                        border-radius: 8px;
-                        font-weight: bold;
-                        margin: 16px 0;
-                    ">Emaili Təsdiqlə</a>
-                    <p style="color: #666;">Bu link 24 saat ərzində etibarlıdır.</p>
-                    <p style="color: #666;">Əgər siz bu hesabı yaratmamısınızsa, bu emaili nəzərə almayın.</p>
-                    <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
-                    <p style="color: #999; font-size: 12px;">NIDA Learning Platform</p>
-                </div>
-                """.formatted(dto.fullName(), verifyLink);
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #00C9A7;">NIDA Platformasına Xoş Gəldiniz!</h2>
+                <p>Salam, <strong>%s</strong>!</p>
+                <p>Email ünvanınızı təsdiqləmək üçün aşağıdakı 6 rəqəmli kodu daxil edin:</p>
+                <div style="
+                    display: inline-block;
+                    padding: 16px 32px;
+                    background-color: #00C9A7;
+                    color: white;
+                    border-radius: 8px;
+                    font-size: 32px;
+                    font-weight: bold;
+                    letter-spacing: 8px;
+                    margin: 16px 0;
+                ">%s</div>
+                <p style="color: #666;">Bu kod 10 dəqiqə ərzində etibarlıdır.</p>
+                <p style="color: #666;">Əgər siz bu hesabı yaratmamısınızsa, bu emaili nəzərə almayın.</p>
+                <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
+                <p style="color: #999; font-size: 12px;">NIDA Learning Platform</p>
+            </div>
+            """.formatted(dto.fullName(), dto.token());
 
         sendHtmlEmail(dto.to(), dto.subject(), html);
     }

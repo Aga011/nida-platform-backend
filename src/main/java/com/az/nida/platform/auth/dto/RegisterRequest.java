@@ -19,12 +19,11 @@ public record RegisterRequest(
         @NotBlank(message = "Email boş ola bilməz")
         @Email(message = "Email formatı yanlışdır")
         String email,
-
         @NotBlank(message = "Şifrə boş ola bilməz")
-        @Size(min = 8, message = "Şifrə minimum 8 simvol olmalıdır")
+        @Size(min = 8, max = 64, message = "Şifrə 8-64 simvol arasında olmalıdır")
         @Pattern(
-                regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&.])[A-Za-z\\d@$!%*?&.]{8,}$",
-                message = "Şifrə minimum 8 simvol, 1 böyük hərf, 1 kiçik hərf, 1 rəqəm və 1 xüsusi simvol içerməlidir"
+                regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?`~])[A-Za-z\\d!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?`~]{8,}$",
+                message = "Şifrə minimum 8 simvol, 1 böyük hərf, 1 kiçik hərf, 1 rəqəm və 1 xüsusi simvol (!@#$%^&*...) içerməlidir"
         )
         String password,
 

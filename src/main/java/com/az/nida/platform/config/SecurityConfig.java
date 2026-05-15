@@ -5,6 +5,7 @@ import com.az.nida.platform.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -43,16 +44,92 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Public endpoints
                         .requestMatchers(
                                 "/api/auth/**",
                                 "/actuator/health",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**",
+                                "/ws/**"
                         ).permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/teacher/**").hasRole("TEACHER")
-                        .requestMatchers("/api/parent/**").hasRole("PARENT")
-                        .requestMatchers("/api/student/**").hasRole("STUDENT")
+
+                        // Analytics
+                        .requestMatchers("/api/analytics/**").hasAnyRole("STUDENT", "TEACHER", "PARENT", "ADMIN")
+
+                        // Dashboard
+                        .requestMatchers("/api/dashboard/student/**").hasAnyRole("STUDENT", "ADMIN")
+                        .requestMatchers("/api/dashboard/teacher/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers("/api/dashboard/parent/**").hasAnyRole("PARENT", "ADMIN")
+
+                        // Exams
+                        .requestMatchers(HttpMethod.POST, "/api/exams/create/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/exams/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/exams/**").hasAnyRole("STUDENT", "TEACHER", "PARENT", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/exams/**/result").hasAnyRole("STUDENT", "ADMIN")
+
+                        // Gamification
+                        .requestMatchers("/api/gamification/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+
+                        // Groups
+                        .requestMatchers(HttpMethod.POST, "/api/groups/create/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/groups/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/groups/**/invite").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/groups/invites/**").hasAnyRole("STUDENT", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/groups/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+
+                        // Homeworks
+                        .requestMatchers(HttpMethod.POST, "/api/homeworks/create/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/homeworks/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/homeworks/attempts/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/homeworks/**/attempt").hasAnyRole("STUDENT", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/homeworks/**").hasAnyRole("STUDENT", "TEACHER", "PARENT", "ADMIN")
+
+                        // Interventions
+                        .requestMatchers("/api/interventions/**").hasAnyRole("TEACHER", "ADMIN")
+
+                        // Messages
+                        .requestMatchers("/api/messages/**").hasAnyRole("STUDENT", "TEACHER", "PARENT", "ADMIN")
+
+                        // Notifications
+                        .requestMatchers("/api/notifications/**").hasAnyRole("STUDENT", "TEACHER", "PARENT", "ADMIN")
+
+                        // Parent-Child
+                        .requestMatchers(HttpMethod.POST, "/api/parent-child/request/**").hasAnyRole("PARENT", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/parent-child/request/**").hasAnyRole("STUDENT", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/parent-child/disconnect").hasAnyRole("STUDENT", "PARENT", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/parent-child/**").hasAnyRole("STUDENT", "TEACHER", "PARENT", "ADMIN")
+
+                        // Payments
+                        .requestMatchers("/api/payments/**").hasAnyRole("PARENT", "ADMIN")
+
+                        // Permissions
+                        .requestMatchers(HttpMethod.POST, "/api/permissions/send/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/permissions/**").hasAnyRole("STUDENT", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/permissions/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+
+                        // Practice Exams
+                        .requestMatchers(HttpMethod.POST, "/api/practice-exams/create/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/practice-exams/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/practice-exams/**/attempt").hasAnyRole("STUDENT", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/practice-exams/**").hasAnyRole("STUDENT", "TEACHER", "PARENT", "ADMIN")
+
+                        // Reports
+                        .requestMatchers(HttpMethod.POST, "/api/reports/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/reports/weekly/parent/**").hasAnyRole("PARENT", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/reports/weekly/student/**").hasAnyRole("STUDENT", "TEACHER", "PARENT", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/reports/**").hasAnyRole("PARENT", "ADMIN")
+
+                        // Tests
+                        .requestMatchers(HttpMethod.POST, "/api/tests/start/**").hasAnyRole("STUDENT", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/tests/**/answer").hasAnyRole("STUDENT", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/tests/**/finish").hasAnyRole("STUDENT", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/tests/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+
+                        // Users
+                        .requestMatchers(HttpMethod.GET, "/api/users/**").hasAnyRole("STUDENT", "TEACHER", "PARENT", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/users/**").hasAnyRole("STUDENT", "TEACHER", "PARENT", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

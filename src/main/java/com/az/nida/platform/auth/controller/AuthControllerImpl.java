@@ -25,6 +25,15 @@ public class AuthControllerImpl implements AuthController {
     }
 
     @Override
+    @PostMapping("/verify-code")
+    public ResponseEntity<ApiResponse<Void>> verifyCode(
+            @RequestParam String email,
+            @RequestParam String code) {
+        authService.verifyCode(email, code);
+        return ResponseEntity.ok(ApiResponse.success("Email uğurla təsdiqləndi"));
+    }
+
+    @Override
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<AuthResponse>> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(ApiResponse.success(authService.login(request), "Giriş uğurlu oldu"));

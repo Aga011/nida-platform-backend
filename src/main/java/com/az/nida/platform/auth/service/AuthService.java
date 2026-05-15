@@ -10,6 +10,8 @@ public interface AuthService {
 
     AuthResponse login(LoginRequest request);
 
+    void verifyCode(String email, String code);
+
     AuthResponse refreshToken(String refreshToken);
 
     void verifyEmail(String token);
