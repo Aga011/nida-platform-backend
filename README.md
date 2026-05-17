@@ -101,6 +101,3 @@ ws://localhost:8080/ws
 Subscribe:
 /user/{userId}/queue/notifications
 
-## Əlaqə
-
-**Developer:** [@Aga011](https://github.com/Aga011)
